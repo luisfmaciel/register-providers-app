@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "58c4e94c-be51-4ffe-9ef2-1d07b2110afc": {
+      "ProjectGuid": "58c4e94c-be51-4ffe-9ef2-1d07b2110afc",
+      "DisplayName": "WorkerService",
+      "ColorIndex": 0
+    },
+    "94541a29-b622-4267-8cbd-a8248ce1c40b": {
+      "ProjectGuid": "94541a29-b622-4267-8cbd-a8248ce1c40b",
+      "DisplayName": "Domain",
+      "ColorIndex": 1
+    },
+    "58682eab-6cf6-4342-9de1-db111a0e5160": {
+      "ProjectGuid": "58682eab-6cf6-4342-9de1-db111a0e5160",
+      "DisplayName": "Infrastructure",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}
