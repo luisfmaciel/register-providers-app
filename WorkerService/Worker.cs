@@ -30,15 +30,49 @@ namespace WorkerService
                 Console.WriteLine("[1] - Add new professional");
                 Console.WriteLine("[2] - Search by professional");
                 Console.WriteLine("[3] - Update professional data");
+                Console.WriteLine("[4] - Delete professional data");
                 Console.WriteLine("[5] - Exit\n");
 
                 Console.WriteLine("Enter an option:");
             }
 
+            ShowHeader();
+            var listLastRegisters = _respository.FindLastRegisters();
+            if (listLastRegisters.Count == 0)
+            {
+                Console.WriteLine("No register found...");
+            }
+            else
+            {
+                foreach (var reg in listLastRegisters)
+                {
+                    Console.WriteLine($"\nId: {reg.Id}");
+                    Console.WriteLine($"Name: {reg.Name}");
+                    Console.WriteLine($"Service: {reg.Service}");
+                    Console.WriteLine($"CNPJ: {Convert.ToUInt64(reg.CNPJ).ToString(@"00\.000\.000\/0000\-00")}");
+                    if (reg.GetActive() == true)
+                    {
+                        Console.WriteLine("Status: Ativo");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Status: Inativo");
+                    }
+                    Console.WriteLine($"Created Date: {reg.CreatedAt}");
+                    Console.WriteLine($"Updated Date: {reg.UpdatedAt}");
+                    Console.WriteLine("----------------------------------------");
+                }
+            }
+
+            Console.WriteLine("\nPress [enter] to go to main menu...");
+            Console.ReadKey();
+            Console.Clear();
+
             do
             {
                 ShowHeader();
                 ShowMenu();
+
                 option = Console.ReadLine();
 
                 switch (option)
@@ -220,13 +254,79 @@ namespace WorkerService
                                 break;
                             }
 
-                            _respository.Update(professionalName, serviceName, cnpjUpdate);
+                            _respository.Update(professionalName, serviceName, cnpjUpdate, cnpj);
 
+                            Console.WriteLine("Successfully Updated");
 
                             break;
                         }
+                    case "4":
+                        {
+                            Console.Clear();
+                            ShowHeader();
+
+                            Console.WriteLine("Search by CNPJ (Only numbers):");
+                            var cnpjSearched = Console.ReadLine();
+                            var validateCnpj = ulong.TryParse(cnpjSearched, out ulong cnpj);
+
+                            if (!validateCnpj || cnpjSearched?.Length < 14 || cnpjSearched?.Length > 14)
+                            {
+                                Console.WriteLine("Invalid CNPJ");
+                                break;
+                            }
+
+                            var list = _respository.FindByCNPJ(cnpj);
+
+                            if (list.Count == 0)
+                            {
+                                Console.WriteLine("\nNo professionals found...");
+                                break;
+                            }
+
+                            foreach (var item in list)
+                            {
+                                Console.WriteLine($"\nId: {item.Id}");
+                                Console.WriteLine($"Name: {item.Name}");
+                                Console.WriteLine($"Service: {item.Service}");
+                                Console.WriteLine($"CNPJ: {Convert.ToUInt64(item.CNPJ).ToString(@"00\.000\.000\/0000\-00")}");
+                                if (item.GetActive() == true)
+                                {
+                                    Console.WriteLine("Status: Ativo");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Status: Inativo");
+                                }
+                                Console.WriteLine($"Created Date: {item.CreatedAt}");
+                                Console.WriteLine($"Updated Date: {item.UpdatedAt}");
+                            }
+
+                            Console.WriteLine("\n[1] - Delete");
+                            Console.WriteLine("[2] - Cancel");
+
+                            var confirmation = Console.ReadLine();
+
+                            if (confirmation == "1")
+                            {
+                                _respository.Delete(cnpj);
+
+                                Console.WriteLine("Successfully Deleted");
+                            }
+                            else if (confirmation == "2")
+                            {
+                                Console.WriteLine("Operation canceled!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid option");
+                            }
+                            break;
+                        }
+                    case "5":
+                        Console.WriteLine("Shutting down...");
+                        break;
                     default: 
-                        Console.WriteLine("okk");
+                        Console.WriteLine("Invalid option");
                         break;
                 }
 

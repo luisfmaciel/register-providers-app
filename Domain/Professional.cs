@@ -11,6 +11,11 @@
         private bool Active = true;
 
 
+        public void SetCreatedAt(DateTime date)
+        {   
+            CreatedAt = date;
+        }
+
         public void SetUpdatedAt(DateTime date)
         {   
             UpdatedAt = date;
@@ -24,6 +29,21 @@
                 Active = false;
             } 
             return Active;
+        }
+
+        public void SetActive(bool active)
+        {
+            Active = active;
+        }
+
+        public void SetId(string guid)
+        {
+            Id = new Guid(guid);
+        }
+
+        public override string ToString()
+        {
+            return $"{Id}|{Name}|{Service}|{CNPJ}|{CreatedAt}|{UpdatedAt}|{GetActive()}";
         }
     }
 }

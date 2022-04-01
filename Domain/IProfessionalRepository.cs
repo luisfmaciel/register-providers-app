@@ -10,7 +10,10 @@ namespace Domain
     {
         IList<Professional> FindByCNPJ(ulong cnpj);
         void Insert(Professional serviceProvider);
-        void Update(string name, string serviceName, ulong cnpj);
-        void Delete(Professional serviceProvider);
+        void Update(string name, string serviceName, ulong cnpj, ulong oldCnpj);
+        void Delete(ulong cnpj);
+        IList<Professional> FindLastRegisters();
+
+
     }
 }

@@ -4,7 +4,8 @@ using WorkerService;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
-    {services.AddSingleton<IProfessionalRepository, ProfessionalRepository>();
+    {
+        services.AddSingleton<IProfessionalRepository, ProfessionalOnFileRepository>();
         services.AddHostedService<Worker>();
     })
     .Build();
